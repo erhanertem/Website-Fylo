@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,6 +11,22 @@
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="css/style.css" />
+		<script>
+			// It's best to inline this in 'head' to avoid FOUC (flash of unstyled content)
+			// INTEND: Checks if 'color-theme' stored in localStorage has dark value or if not but OS yields a dark mode  then mark body with dark class if not remove dark class from it.
+			if (
+				localStorage.getItem('color-theme') === 'dark' ||
+				(!('color-theme' in localStorage) &&
+					window.matchMedia('(prefers-color-scheme: dark)').matches)
+				//prefers-color-scheme is a CSS media feature to detect if a user has requested a light/dark color theme thru their operating system settings. window.matchMedia(...css feature) establishes a mediaquerylist. Mediaquerylist has a instance property of matches which returns a boolean value.
+			) {
+				document.documentElement.classList.add('dark');
+				// document.documentElement -> body root element
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		</script>
+		<script src="js/script.js" defer></script>
 		<title>Fylo Website</title>
 	</head>
 	<body class="font-opensans dark:bg-darkBlue dark:text-white">
@@ -46,7 +62,7 @@
 					<!-- Light SVG Icon -->
 					<svg
 						id="theme-toggle-light-icon"
-						class="h-5 w-5"
+						class="hidden h-5 w-5"
 						fill="currentColor"
 						viewBox="0 0 20 20"
 						xmlns="http://www.w3.org/2000/svg"
@@ -60,5 +76,28 @@
 				</button>
 			</div>
 		</header>
+
+		<section
+			id="hero"
+			class="bg-curvy-light-mode bg-contain bg-bottom bg-no-repeat dark:bg-curvy-dark-mode"
+		>
+			<!-- Hero Container -->
+			<div class="container mx-auto px-6 pb-52 text-center md:pt-20">
+				<img src="images/illustration-intro.png" alt="" class="mx-auto" />
+				<h1
+					class="mx-auto mb-10 mt-14 max-w-2xl text-3xl font-bold leading-normal md:text-4xl"
+				>
+					All your files in one secure location, accesible anywhere.
+				</h1>
+				<p class="mx-auto mb-10 max-w-sm text-sm md:max-w-xl md:text-lg">
+					Fylo stores all your most important files in one secure location.
+					Access them wherever you need, share and collaborate with friends
+					family, and coworkers.
+				</p>
+				<button class="w-52 rounded-full bg-accentCyan p-3 hover:scale-95">
+					Get Started
+				</button>
+			</div>
+		</section>
 	</body>
 </html>
